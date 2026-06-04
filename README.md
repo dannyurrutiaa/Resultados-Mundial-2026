@@ -85,7 +85,7 @@ start index.html  # Windows
 
 ---
 
-## 📋 Estructura del Excel (`apuestas.xlsx`)
+## 📋 Estructura del Excel (`mundial_2026_apuestas.xlsx`)
 
 | Columna | Contenido |
 |---------|-----------|
