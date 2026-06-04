@@ -19,6 +19,106 @@ OUTPUT_FILE  = "index.html"
 API_BASE     = "https://api.football-data.org/v4"
 WC_2026_ID   = 2000
 POINTS       = {1: 4, 2: 3, 3: 2, 4: 1}
+PAISES_ES_EN = {
+    "Chequia": "Czechia",
+    "Ecuador": "Ecuador",
+    "Suecia": "Sweden",
+    "Uzbekistán": "Uzbekistan",
+    "Portugal": "Portugal",
+    "Catar": "Qatar",
+    "Irán": "Iran",
+    "Australia": "Australia",
+    "Brasil": "Brazil",
+    "Argelia": "Algeria",
+    "Suiza": "Switzerland",
+    "Colombia": "Colombia",
+    "Ghana": "Ghana",
+    "Túnez": "Tunisia",
+    "Curazao": "Curaçao",
+    "Alemania": "Germany",
+    "Japón": "Japan",
+    "Croacia": "Croatia",
+    "Uruguay": "Uruguay",
+    "México": "Mexico",
+    "Senegal": "Senegal",
+    "Turquía": "Turkey",
+    "Egipto": "Egypt",
+    "Argentina": "Argentina",
+    "Marruecos": "Morocco",
+    "Jordania": "Jordan",
+    "España": "Spain",
+    "Austria": "Austria",
+    "Sudáfrica": "South Africa",
+    "Haití": "Haiti",
+    "Costa de Marfil": "Ivory Coast",
+    "Escocia": "Scotland",
+    "Estados Unidos": "United States",
+    "Panamá": "Panama",
+    "Bélgica": "Belgium",
+    "Nueva Zelanda": "New Zealand",
+    "Arabia Saudita": "Saudi Arabia",
+    "Corea del Sur": "South Korea",
+    "Cabo Verde": "Cape Verde Islands",
+    "República Democrática del Congo": "Congo DR",
+    "Holanda": "Netherlands",
+    "Bosnia y Herzegovina": "Bosnia-Herzegovina",
+    "Francia": "France",
+    "Canadá": "Canada",
+    "Noruega": "Norway",
+    "Irak": "Iraq",
+    "Paraguay": "Paraguay",
+    "Inglaterra": "England"
+}
+PAISES_EN_ES = {
+    "Czechia": "Chequia",
+    "Ecuador": "Ecuador",
+    "Sweden": "Suecia",
+    "Uzbekistan": "Uzbekistán",
+    "Portugal": "Portugal",
+    "Qatar": "Catar",
+    "Iran": "Irán",
+    "Australia": "Australia",
+    "Brazil": "Brasil",
+    "Algeria": "Argelia",
+    "Switzerland": "Suiza",
+    "Colombia": "Colombia",
+    "Ghana": "Ghana",
+    "Tunisia": "Túnez",
+    "Curaçao": "Curazao",
+    "Germany": "Alemania",
+    "Japan": "Japón",
+    "Croatia": "Croacia",
+    "Uruguay": "Uruguay",
+    "Mexico": "México",
+    "Senegal": "Senegal",
+    "Turkey": "Turquía",
+    "Egypt": "Egipto",
+    "Argentina": "Argentina",
+    "Morocco": "Marruecos",
+    "Jordan": "Jordania",
+    "Spain": "España",
+    "Austria": "Austria",
+    "South Africa": "Sudáfrica",
+    "Haiti": "Haití",
+    "Ivory Coast": "Costa de Marfil",
+    "Scotland": "Escocia",
+    "United States": "Estados Unidos",
+    "Panama": "Panamá",
+    "Belgium": "Bélgica",
+    "New Zealand": "Nueva Zelanda",
+    "Saudi Arabia": "Arabia Saudita",
+    "South Korea": "Corea del Sur",
+    "Cape Verde Islands": "Cabo Verde",
+    "Congo DR": "República Democrática del Congo",
+    "Netherlands": "Holanda",
+    "Bosnia-Herzegovina": "Bosnia y Herzegovina",
+    "France": "Francia",
+    "Canada": "Canadá",
+    "Norway": "Noruega",
+    "Iraq": "Irak",
+    "Paraguay": "Paraguay",
+    "England": "Inglaterra"
+}
  
 # Fecha de inicio del Mundial 2026 (11 de junio de 2026)
 WC_START_DATE = date(2026, 6, 11)
@@ -44,10 +144,20 @@ def leer_apuestas(path: str) -> list[dict]:
         if not nombre or str(nombre).strip() == "":
             continue
         pago_raw = str(row[5]).strip() if row[5] else ""
+        if row[1] is None or row[2] is None or row[3] is None or row[4] is None:
+            opcion_1 = None
+            opcion_2 = None
+            opcion_3 = None
+            opcion_4 = None
+        else:
+          opcion_1 = PAISES_ES_EN[str(row[1]).strip()]
+          opcion_2 = PAISES_ES_EN[str(row[2]).strip()]
+          opcion_3 = PAISES_ES_EN[str(row[3]).strip()]
+          opcion_4 = PAISES_ES_EN[str(row[4]).strip()]
         apuestas.append({
             "nombre": str(nombre).strip(),
-            "picks":  {1: str(row[1]).strip(), 2: str(row[2]).strip(),
-                       3: str(row[3]).strip(), 4: str(row[4]).strip()},
+            "picks":  {1: opcion_1, 2: opcion_2,
+                       3: opcion_3, 4: opcion_4},
             "pago":   "✓" in pago_raw or pago_raw.lower() == "true",
             "obs":    str(row[6]).strip() if row[6] else "",
         })
@@ -132,9 +242,9 @@ def fetch_standings(api_key: str) -> dict:
  
 def fetch_demo() -> dict:
     vivos = {"Argentina", "France", "Brazil", "Spain", "Germany",
-             "Portugal", "England", "Morocco"}
+             "Portugal", "Morocco", "Netherlands"}
     eliminados = {"Mexico", "United States", "Japan", "Senegal",
-                  "Poland", "Switzerland", "South Korea", "Australia"}
+                  "Poland", "Switzerland", "England", "South Korea", "Australia"}
     return {
         "vivos":           vivos,
         "eliminados":      eliminados,
@@ -223,7 +333,7 @@ def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> s
             picks_html += f"""
             <div class="pick {estado}">
               <span class="pick-pos">{POS_LABEL[pos]}</span>
-              <span class="pick-team">{d.get('equipo', '—')}</span>
+              <span class="pick-team">{PAISES_EN_ES[d.get('equipo', '—')]}</span>
               <span class="pick-badge">{ESTADO_ICON[estado]} {ESTADO_LABEL[estado]}</span>
               <span class="pick-pts">+{d.get('pts', POINTS[pos])} pts</span>
             </div>"""

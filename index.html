@@ -5,151 +5,191 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mundial 2026 — Apuestas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #0a0a0f;
-    --surface:   #13131c;
-    --surface2:  #1c1c2a;
-    --border:    rgba(255,255,255,0.07);
-    --gold:      #f5c842;
-    --silver:    #b0bec5;
-    --bronze:    #cd7f32;
-    --green:     #00e676;
-    --red:       #ff5252;
-    --accent:    #5c6bc0;
-    --text:      #eef0f8;
-    --muted:     #6b6f8a;
-    --radius:    16px;
+    /* Paleta oficial FIFA 2026: negro, blanco y dorado como base */
+    --bg:        #f7f5f0;
+    --surface:   #ffffff;
+    --surface2:  #f0ede6;
+    --border:    #e2ddd4;
+    --gold:      #c9a84c;
+    --gold-dark: #a8832a;
+    --gold-light:#f0d98a;
+    --silver:    #8a9ba8;
+    --bronze:    #a0674a;
+    --green:     #2d7a4f;
+    --green-bg:  #eaf4ee;
+    --red:       #c0392b;
+    --red-bg:    #fdf0ee;
+    --text:      #1a1a1a;
+    --text2:     #4a4540;
+    --muted:     #9a9590;
+    --radius:    14px;
+    /* Colores países sede */
+    --usa-blue:  #1a3a6e;
+    --mex-green: #1a6e3a;
+    --can-red:   #c0392b;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    background-image: radial-gradient(ellipse at 20% 0%, #1a1a3a 0%, transparent 60%),
-                      radial-gradient(ellipse at 80% 100%, #0d2a1a 0%, transparent 60%);
   }
-
+ 
+  /* ── Franja decorativa superior tricolor ── */
+  .top-stripe {
+    height: 5px;
+    background: linear-gradient(90deg,
+      var(--can-red) 0%, var(--can-red) 33.3%,
+      var(--gold)    33.3%, var(--gold) 66.6%,
+      var(--usa-blue) 66.6%, var(--usa-blue) 100%);
+  }
+ 
   /* ── Header ── */
   header {
+    background: #1a1a1a;
     text-align: center;
-    padding: 56px 24px 32px;
+    padding: 48px 24px 36px;
     position: relative;
+    overflow: hidden;
   }
-  header::after {
-    content: '';
+  header::before {
+    content: '26 26 26 26 26 26 26 26 26 26 26 26';
     position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 80px; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: rgba(255,255,255,0.03);
+    white-space: nowrap;
+    letter-spacing: 20px;
+    pointer-events: none;
   }
   .title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(42px, 8vw, 80px);
-    letter-spacing: 4px;
+    font-size: clamp(48px, 9vw, 88px);
+    letter-spacing: 6px;
     line-height: 1;
-    background: linear-gradient(135deg, #fff 0%, var(--gold) 60%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff;
+    position: relative;
+  }
+  .title span {
+    color: var(--gold);
   }
   .subtitle {
     margin-top: 8px;
-    color: var(--muted);
-    font-size: 14px;
-    letter-spacing: 3px;
+    color: #888;
+    font-size: 13px;
+    letter-spacing: 4px;
     text-transform: uppercase;
+    position: relative;
   }
   .fase-badge {
-    display: inline-block;
-    margin-top: 16px;
-    padding: 6px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    padding: 7px 20px;
     border-radius: 999px;
-    background: rgba(92,107,192,0.15);
-    border: 1px solid rgba(92,107,192,0.35);
-    color: #9fa8da;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold-light);
     font-size: 13px;
     font-weight: 500;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    position: relative;
   }
-
+ 
   /* ── Stats bar ── */
   .stats {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    padding: 32px 24px;
-    max-width: 900px;
-    margin: 0 auto;
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+    max-width: 100%;
+    overflow-x: auto;
   }
   .stat {
     flex: 1;
-    min-width: 160px;
+    min-width: 140px;
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
     padding: 20px 24px;
     text-align: center;
   }
   .stat-val {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 2px;
-    color: var(--gold);
+    font-size: 32px;
+    letter-spacing: 1px;
+    color: var(--gold-dark);
+    line-height: 1;
   }
   .stat-label {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-top: 4px;
   }
-
+ 
   /* ── Resultados Oficiales ── */
   .resultados-finales {
     max-width: 700px;
-    margin: 0 auto 32px;
+    margin: 40px auto 0;
     padding: 0 24px;
   }
   .resultados-finales h2 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
+    font-size: 26px;
     letter-spacing: 2px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     text-align: center;
-    color: var(--gold);
+    color: var(--gold-dark);
   }
   .res-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
   .res-item {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 20px;
+    border-radius: 10px;
+    padding: 14px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .res-item.pos-1 { border-color: rgba(245,200,66,0.4); }
-  .res-item.pos-2 { border-color: rgba(176,190,197,0.4); }
-  .res-pos { font-size: 18px; }
+  .res-item.pos-1 { border-left: 3px solid var(--gold); }
+  .res-item.pos-2 { border-left: 3px solid var(--silver); }
+  .res-item.pos-3 { border-left: 3px solid var(--bronze); }
+  .res-pos  { font-size: 16px; }
   .res-team { font-weight: 600; color: var(--text); }
-
+ 
   /* ── Cards ── */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px;
+  .cards-section {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 24px 60px;
+    padding: 40px 24px 60px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
   }
   .card {
     background: var(--surface);
@@ -159,113 +199,134 @@
     transition: transform .2s, box-shadow .2s;
   }
   .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
   }
-  .card.rank-1 { border-color: rgba(245,200,66,0.35); box-shadow: 0 0 30px rgba(245,200,66,0.08); }
-  .card.rank-2 { border-color: rgba(176,190,197,0.25); }
-  .card.rank-3 { border-color: rgba(205,127,50,0.25); }
-
+  .card.rank-1 {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.3);
+  }
+  .card.rank-2 { border-color: var(--silver); }
+  .card.rank-3 { border-color: var(--bronze); }
+ 
   .card-header {
-    padding: 20px 20px 16px;
+    padding: 16px 18px 14px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     border-bottom: 1px solid var(--border);
     background: var(--surface2);
   }
   .card-header h3 {
     flex: 1;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
+    color: var(--text);
   }
   .rank {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    padding: 4px 10px;
+    padding: 3px 10px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.07);
+    background: var(--surface);
+    border: 1px solid var(--border);
     color: var(--muted);
     white-space: nowrap;
   }
-  .rank.gold   { background: rgba(245,200,66,0.15); color: var(--gold); }
-  .rank.silver { background: rgba(176,190,197,0.15); color: var(--silver); }
-  .rank.bronze { background: rgba(205,127,50,0.15); color: var(--bronze); }
-
+  .rank.gold   { background: #fdf6e3; border-color: var(--gold); color: var(--gold-dark); }
+  .rank.silver { background: #f4f6f8; border-color: var(--silver); color: #607080; }
+  .rank.bronze { background: #fdf0e8; border-color: var(--bronze); color: var(--bronze); }
+ 
   .score-box { text-align: right; }
   .score-main {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
+    font-size: 30px;
     line-height: 1;
-    color: var(--gold);
+    color: var(--gold-dark);
   }
-  .score-main span { font-size: 14px; margin-left: 2px; color: var(--muted); font-family: 'DM Sans', sans-serif; }
-  .score-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-
+  .score-main span {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    margin-left: 2px;
+  }
+  .score-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+ 
   /* ── Picks ── */
   .picks-grid {
-    padding: 16px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
   }
   .pick {
     display: grid;
-    grid-template-columns: 48px 1fr auto auto;
+    grid-template-columns: 46px 1fr auto auto;
     align-items: center;
     gap: 8px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.03);
+    padding: 9px 12px;
+    border-radius: 8px;
     border: 1px solid var(--border);
-    transition: background .15s;
+    background: var(--bg);
   }
-  .pick.vivo     { border-color: rgba(0,230,118,0.2); }
-  .pick.acierto  { border-color: rgba(0,230,118,0.35); background: rgba(0,230,118,0.05); }
-  .pick.eliminado { border-color: rgba(255,82,82,0.2); opacity: 0.6; }
-  .pick.fallo    { border-color: rgba(255,82,82,0.2); opacity: 0.5; }
-
-  .pick-pos  { font-size: 13px; color: var(--muted); }
-  .pick-team { font-weight: 500; font-size: 14px; }
+  .pick.vivo      { border-color: #b7dfc8; background: var(--green-bg); }
+  .pick.acierto   { border-color: #2d7a4f; background: var(--green-bg); }
+  .pick.eliminado { border-color: #f0c4be; background: var(--red-bg); opacity: 0.7; }
+  .pick.fallo     { border-color: #f0c4be; background: var(--red-bg); opacity: 0.6; }
+ 
+  .pick-pos   { font-size: 12px; color: var(--muted); }
+  .pick-team  { font-weight: 500; font-size: 14px; color: var(--text); }
   .pick-badge { font-size: 11px; color: var(--muted); white-space: nowrap; }
-  .pick-pts  { font-size: 12px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .pick-pts   { font-size: 12px; font-weight: 600; color: var(--muted); white-space: nowrap; }
   .pick.vivo .pick-pts    { color: var(--green); }
   .pick.acierto .pick-pts { color: var(--green); }
-
+  .pick.eliminado .pick-pts { color: var(--red); }
+ 
   /* ── Footer ── */
   footer {
     text-align: center;
-    padding: 24px;
+    padding: 20px 24px;
     color: var(--muted);
     font-size: 12px;
     border-top: 1px solid var(--border);
+    background: var(--surface);
   }
-
+ 
   @media (max-width: 600px) {
-    .cards { grid-template-columns: 1fr; }
-    .res-grid { grid-template-columns: 1fr; }
+    .cards       { grid-template-columns: 1fr; }
+    .res-grid    { grid-template-columns: 1fr; }
+    .stat        { min-width: 120px; padding: 16px; }
+    .stat-val    { font-size: 26px; }
   }
 </style>
 </head>
 <body>
-
+ 
+<div class="top-stripe"></div>
+ 
 <header>
-  <div class="title">MUNDIAL 2026</div>
+  <div class="title">MUNDIAL <span>2026</span></div>
   <div class="subtitle">Control de Apuestas</div>
-  <div class="fase-badge">📍 En curso</div>
+  <div class="fase-badge">📍 Cuartos de Final (demo)</div>
 </header>
-
+ 
 <div class="stats">
   <div class="stat">
-    <div class="stat-val">7</div>
+    <div class="stat-val">9</div>
     <div class="stat-label">Participantes</div>
   </div>
   <div class="stat">
-    <div class="stat-val">$700,000</div>
+    <div class="stat-val">$900.000</div>
     <div class="stat-label">Pozo total</div>
   </div>
   <div class="stat">
-    <div class="stat-val">$600,000</div>
+    <div class="stat-val">$800.000</div>
     <div class="stat-label">Premio 1° lugar</div>
   </div>
   <div class="stat">
@@ -273,26 +334,63 @@
     <div class="stat-label">Premio 2° lugar</div>
   </div>
 </div>
+ 
 
-
-
-<div class="cards">
+ 
+<div class="cards-section">
+  <div class="section-title">Clasificación</div>
+  <div class="cards">
 
         <div class="card rank-1">
           <div class="card-header">
             <span class="rank gold">👑 1°</span>
-            <h3>Cristian</h3>
+            <h3>Pablo</h3>
             <div class="score-box">
-              <div class="score-main">3<span>pts</span></div>
+              <div class="score-main">10<span>pts</span></div>
               <div class="score-label">Máx. alcanzable</div>
             </div>
           </div>
           <div class="picks-grid">
-            <div class="pick eliminado">
+            <div class="pick vivo">
+              <span class="pick-pos">🥇 1°</span>
+              <span class="pick-team">España</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">🥈 2°</span>
+              <span class="pick-team">Brasil</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+3 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">🥉 3°</span>
+              <span class="pick-team">Alemania</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+2 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">4°</span>
+              <span class="pick-team">Argentina</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+1 pts</span>
+            </div></div>
+        </div>
+        <div class="card rank-2">
+          <div class="card-header">
+            <span class="rank silver">🥈 2°</span>
+            <h3>Cristian</h3>
+            <div class="score-box">
+              <div class="score-main">9<span>pts</span></div>
+              <div class="score-label">Máx. alcanzable</div>
+            </div>
+          </div>
+          <div class="picks-grid">
+            <div class="pick vivo">
               <span class="pick-pos">🥇 1°</span>
               <span class="pick-team">Francia</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
             </div>
             <div class="pick vivo">
               <span class="pick-pos">🥈 2°</span>
@@ -300,44 +398,9 @@
               <span class="pick-badge">🟢 Vivo</span>
               <span class="pick-pts">+3 pts</span>
             </div>
-            <div class="pick eliminado">
-              <span class="pick-pos">🥉 3°</span>
-              <span class="pick-team">España</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div>
-            <div class="pick eliminado">
-              <span class="pick-pos">4°</span>
-              <span class="pick-team">Inglaterra</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div></div>
-        </div>
-        <div class="card rank-2">
-          <div class="card-header">
-            <span class="rank silver">🥈 2°</span>
-            <h3>Cristian Jr.</h3>
-            <div class="score-box">
-              <div class="score-main">2<span>pts</span></div>
-              <div class="score-label">Máx. alcanzable</div>
-            </div>
-          </div>
-          <div class="picks-grid">
-            <div class="pick eliminado">
-              <span class="pick-pos">🥇 1°</span>
-              <span class="pick-team">Francia</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div>
-            <div class="pick eliminado">
-              <span class="pick-pos">🥈 2°</span>
-              <span class="pick-team">España</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div>
             <div class="pick vivo">
               <span class="pick-pos">🥉 3°</span>
-              <span class="pick-team">Argentina</span>
+              <span class="pick-team">España</span>
               <span class="pick-badge">🟢 Vivo</span>
               <span class="pick-pts">+2 pts</span>
             </div>
@@ -351,24 +414,24 @@
         <div class="card rank-3">
           <div class="card-header">
             <span class="rank bronze">🥉 3°</span>
-            <h3>Dany</h3>
+            <h3>Cristian Jr.</h3>
             <div class="score-box">
-              <div class="score-main">2<span>pts</span></div>
+              <div class="score-main">9<span>pts</span></div>
               <div class="score-label">Máx. alcanzable</div>
             </div>
           </div>
           <div class="picks-grid">
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">🥇 1°</span>
-              <span class="pick-team">España</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div>
-            <div class="pick eliminado">
-              <span class="pick-pos">🥈 2°</span>
               <span class="pick-team">Francia</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">🥈 2°</span>
+              <span class="pick-team">España</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+3 pts</span>
             </div>
             <div class="pick vivo">
               <span class="pick-pos">🥉 3°</span>
@@ -386,24 +449,24 @@
         <div class="card rank-4">
           <div class="card-header">
             <span class="rank">4°</span>
-            <h3>Dino</h3>
+            <h3>Dany</h3>
             <div class="score-box">
-              <div class="score-main">2<span>pts</span></div>
+              <div class="score-main">9<span>pts</span></div>
               <div class="score-label">Máx. alcanzable</div>
             </div>
           </div>
           <div class="picks-grid">
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">🥇 1°</span>
-              <span class="pick-team">Alemania</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-team">España</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
             </div>
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">🥈 2°</span>
-              <span class="pick-team">Inglaterra</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-team">Francia</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+3 pts</span>
             </div>
             <div class="pick vivo">
               <span class="pick-pos">🥉 3°</span>
@@ -413,7 +476,7 @@
             </div>
             <div class="pick eliminado">
               <span class="pick-pos">4°</span>
-              <span class="pick-team">Brasil</span>
+              <span class="pick-team">Inglaterra</span>
               <span class="pick-badge">🔴 Eliminado</span>
               <span class="pick-pts">+0 pts</span>
             </div></div>
@@ -421,59 +484,24 @@
         <div class="card rank-4">
           <div class="card-header">
             <span class="rank">5°</span>
-            <h3>Don Segundo</h3>
-            <div class="score-box">
-              <div class="score-main">1<span>pts</span></div>
-              <div class="score-label">Máx. alcanzable</div>
-            </div>
-          </div>
-          <div class="picks-grid">
-            <div class="pick eliminado">
-              <span class="pick-pos">🥇 1°</span>
-              <span class="pick-team">Francia</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div>
-            <div class="pick eliminado">
-              <span class="pick-pos">🥈 2°</span>
-              <span class="pick-team">Inglaterra</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div>
-            <div class="pick eliminado">
-              <span class="pick-pos">🥉 3°</span>
-              <span class="pick-team">España</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
-            </div>
-            <div class="pick vivo">
-              <span class="pick-pos">4°</span>
-              <span class="pick-team">Argentina</span>
-              <span class="pick-badge">🟢 Vivo</span>
-              <span class="pick-pts">+1 pts</span>
-            </div></div>
-        </div>
-        <div class="card rank-4">
-          <div class="card-header">
-            <span class="rank">6°</span>
             <h3>JM</h3>
             <div class="score-box">
-              <div class="score-main">1<span>pts</span></div>
+              <div class="score-main">8<span>pts</span></div>
               <div class="score-label">Máx. alcanzable</div>
             </div>
           </div>
           <div class="picks-grid">
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">🥇 1°</span>
               <span class="pick-team">España</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
             </div>
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">🥈 2°</span>
               <span class="pick-team">Francia</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+3 pts</span>
             </div>
             <div class="pick eliminado">
               <span class="pick-pos">🥉 3°</span>
@@ -490,25 +518,25 @@
         </div>
         <div class="card rank-4">
           <div class="card-header">
-            <span class="rank">9°</span>
+            <span class="rank">6°</span>
             <h3>Juan Reveco</h3>
             <div class="score-box">
-              <div class="score-main">0<span>pts</span></div>
+              <div class="score-main">8<span>pts</span></div>
               <div class="score-label">Máx. alcanzable</div>
             </div>
           </div>
           <div class="picks-grid">
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">🥇 1°</span>
               <span class="pick-team">España</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
             </div>
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">🥈 2°</span>
               <span class="pick-team">Francia</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+3 pts</span>
             </div>
             <div class="pick eliminado">
               <span class="pick-pos">🥉 3°</span>
@@ -516,18 +544,124 @@
               <span class="pick-badge">🔴 Eliminado</span>
               <span class="pick-pts">+0 pts</span>
             </div>
-            <div class="pick eliminado">
+            <div class="pick vivo">
               <span class="pick-pos">4°</span>
               <span class="pick-team">Brasil</span>
-              <span class="pick-badge">🔴 Eliminado</span>
-              <span class="pick-pts">+0 pts</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+1 pts</span>
             </div></div>
         </div>
+        <div class="card rank-4">
+          <div class="card-header">
+            <span class="rank">7°</span>
+            <h3>Dino</h3>
+            <div class="score-box">
+              <div class="score-main">7<span>pts</span></div>
+              <div class="score-label">Máx. alcanzable</div>
+            </div>
+          </div>
+          <div class="picks-grid">
+            <div class="pick vivo">
+              <span class="pick-pos">🥇 1°</span>
+              <span class="pick-team">Alemania</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
+            </div>
+            <div class="pick eliminado">
+              <span class="pick-pos">🥈 2°</span>
+              <span class="pick-team">Inglaterra</span>
+              <span class="pick-badge">🔴 Eliminado</span>
+              <span class="pick-pts">+0 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">🥉 3°</span>
+              <span class="pick-team">Argentina</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+2 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">4°</span>
+              <span class="pick-team">Brasil</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+1 pts</span>
+            </div></div>
+        </div>
+        <div class="card rank-4">
+          <div class="card-header">
+            <span class="rank">8°</span>
+            <h3>Don Segundo</h3>
+            <div class="score-box">
+              <div class="score-main">7<span>pts</span></div>
+              <div class="score-label">Máx. alcanzable</div>
+            </div>
+          </div>
+          <div class="picks-grid">
+            <div class="pick vivo">
+              <span class="pick-pos">🥇 1°</span>
+              <span class="pick-team">Francia</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
+            </div>
+            <div class="pick eliminado">
+              <span class="pick-pos">🥈 2°</span>
+              <span class="pick-team">Inglaterra</span>
+              <span class="pick-badge">🔴 Eliminado</span>
+              <span class="pick-pts">+0 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">🥉 3°</span>
+              <span class="pick-team">España</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+2 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">4°</span>
+              <span class="pick-team">Argentina</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+1 pts</span>
+            </div></div>
+        </div>
+        <div class="card rank-4">
+          <div class="card-header">
+            <span class="rank">9°</span>
+            <h3>Manuel</h3>
+            <div class="score-box">
+              <div class="score-main">7<span>pts</span></div>
+              <div class="score-label">Máx. alcanzable</div>
+            </div>
+          </div>
+          <div class="picks-grid">
+            <div class="pick vivo">
+              <span class="pick-pos">🥇 1°</span>
+              <span class="pick-team">Holanda</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+4 pts</span>
+            </div>
+            <div class="pick eliminado">
+              <span class="pick-pos">🥈 2°</span>
+              <span class="pick-team">Inglaterra</span>
+              <span class="pick-badge">🔴 Eliminado</span>
+              <span class="pick-pts">+0 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">🥉 3°</span>
+              <span class="pick-team">Francia</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+2 pts</span>
+            </div>
+            <div class="pick vivo">
+              <span class="pick-pos">4°</span>
+              <span class="pick-team">Brasil</span>
+              <span class="pick-badge">🟢 Vivo</span>
+              <span class="pick-pts">+1 pts</span>
+            </div></div>
+        </div>
+  </div>
 </div>
-
+ 
 <footer>
-  Última actualización: 04/06/2026 04:21 · Generado con Python + football-data.org
+  Última actualización: 04/06/2026 03:03 &nbsp;·&nbsp; football-data.org
 </footer>
-
+ 
 </body>
 </html>
