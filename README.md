@@ -5,7 +5,7 @@ Página web generada automáticamente con los puntajes en tiempo real de tu grup
 ## ¿Cómo funciona?
 
 ```
-apuestas.xlsx  →  generate.py  →  index.html  →  GitHub Pages
+mundial_2026_apuestas.xlsx  →  generate.py  →  index.html  →  GitHub Pages
                       ↑
               football-data.org API
               (equipos vivos / resultados)
@@ -95,7 +95,9 @@ start index.html  # Windows
 | D | Selección para el 3° lugar |
 | E | Selección para el 4° lugar |
 | F | ¿Pagó? (✓ Sí / ✗ No) |
-| G | Observaciones |
+| G | Fecha Pago |
+| H | Tipo Pago |
+| I | Observaciones |
 
 > Los nombres de los equipos deben coincidir exactamente con los que usa football-data.org
 > (ej: "Argentina", "France", "Brazil"). Ejecuta `--demo` primero para ver el formato.
