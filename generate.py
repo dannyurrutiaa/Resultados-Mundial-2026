@@ -16,7 +16,7 @@ import requests
 
 # ─── Configuración ────────────────────────────────────────────────────────────
 
-EXCEL_FILE = "apuestas.xlsx"
+EXCEL_FILE = "mundial_2026_apuestas.xlsx"
 OUTPUT_FILE = "index.html"
 API_BASE   = "https://api.football-data.org/v4"
 WC_2026_ID = 2000          # ID del Mundial 2026 en football-data.org
