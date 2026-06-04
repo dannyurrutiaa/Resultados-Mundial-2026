@@ -586,7 +586,7 @@ def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> s
 </body>
 </html>"""
 
-# ─── Main ─────────────────────────────────────────────────────────────────────
+# ─── Main ────────────────────────────────────────────────────────────────────
 
 def main():
     parser = argparse.ArgumentParser(description="Generador Mundial 2026")
