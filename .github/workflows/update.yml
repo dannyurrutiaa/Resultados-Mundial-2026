@@ -21,27 +21,27 @@ jobs:
           fi
 
       - name: Checkout del repositorio
-        if: steps.check_fecha.outputs.activo == 'true'
+        if: steps.check_fecha.outputs.activo == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/checkout@v4
 
       - name: Configurar Python
-        if: steps.check_fecha.outputs.activo == 'true'
+        if: steps.check_fecha.outputs.activo == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Instalar dependencias
-        if: steps.check_fecha.outputs.activo == 'true'
+        if: steps.check_fecha.outputs.activo == 'true' || github.event_name == 'workflow_dispatch'
         run: pip install openpyxl requests
 
       - name: Generar index.html
-        if: steps.check_fecha.outputs.activo == 'true'
+        if: steps.check_fecha.outputs.activo == 'true' || github.event_name == 'workflow_dispatch'
         env:
           FOOTBALL_API_KEY: ${{ secrets.FOOTBALL_API_KEY }}
         run: python generate.py --api-key "$FOOTBALL_API_KEY"
 
       - name: Publicar cambios
-        if: steps.check_fecha.outputs.activo == 'true'
+        if: steps.check_fecha.outputs.activo == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
