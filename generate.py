@@ -9,6 +9,7 @@ import argparse
 import sys
 from datetime import datetime, date
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import openpyxl
 import requests
@@ -623,7 +624,7 @@ def main():
 
     print(f"    Fase: {standings['fase_actual']}")
     apuestas_calc = calcular(apuestas, standings)
-    generado      = datetime.now().strftime("%d/%m/%Y %H:%M")
+    generado      = generado = datetime.now(ZoneInfo("America/Santiago")).strftime("%d/%m/%Y %H:%M")
     html          = generar_html(apuestas_calc, standings, generado)
     Path(args.output).write_text(html, encoding="utf-8")
     print(f"✅  HTML generado: {args.output}")
