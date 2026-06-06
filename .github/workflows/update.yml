@@ -2,7 +2,7 @@ name: Actualizar página Mundial 2026
 
 on:
   schedule:
-    - cron: '0 * * * *'   # cada hora en punto
+    - cron: '0,30 * * * *'   # cada 30 min todo el año
   workflow_dispatch:        # también permite correrlo manualmente desde GitHub
 
 jobs:
@@ -10,23 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Verificar si estamos en fechas del Mundial
+        id: check_fecha
+        run: |
+          HOY=$(date -u +%Y%m%d)
+          if [ "$HOY" -ge "20260611" ] && [ "$HOY" -le "20260719" ]; then
+            echo "activo=true" >> $GITHUB_OUTPUT
+          else
+            echo "activo=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout del repositorio
+        if: steps.check_fecha.outputs.activo == 'true'
         uses: actions/checkout@v4
 
       - name: Configurar Python
+        if: steps.check_fecha.outputs.activo == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Instalar dependencias
+        if: steps.check_fecha.outputs.activo == 'true'
         run: pip install openpyxl requests
 
       - name: Generar index.html
+        if: steps.check_fecha.outputs.activo == 'true'
         env:
           FOOTBALL_API_KEY: ${{ secrets.FOOTBALL_API_KEY }}
         run: python generate.py --api-key "$FOOTBALL_API_KEY"
 
       - name: Publicar cambios
+        if: steps.check_fecha.outputs.activo == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
