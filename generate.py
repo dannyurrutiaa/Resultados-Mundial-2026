@@ -16,7 +16,7 @@ import requests
 # ─── Configuración ────────────────────────────────────────────────────────────
 
 EXCEL_FILE    = "mundial_2026_apuestas.xlsx"
-OUTPUT_FILE   = "index.html"
+OUTPUT_FILE   = "index_demo_v2.html"
 API_BASE      = "https://api.football-data.org/v4"
 WC_2026_ID    = 2000
 POINTS        = {1: 4, 2: 3, 3: 2, 4: 1}
@@ -552,11 +552,13 @@ def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> s
   .tiebreak-note {{ padding: 10px 16px; font-size: 12px; color: #7a5c00; background: #fff8e1; border-top: 1px solid #f0c060; }}
   footer {{ text-align: center; padding: 20px 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); background: var(--surface); }}
   @media (max-width: 600px) {{
-    .cards {{ grid-template-columns: 1fr; }}
-    .res-grid {{ grid-template-columns: 1fr; }}
-    .stat {{ min-width: 120px; padding: 16px; }}
-    .stat-val {{ font-size: 26px; }}
-  }}
+    .cards       {{ grid-template-columns: 1fr; }}
+    .res-grid    {{ grid-template-columns: 1fr; }}
+    .stats       {{ flex-wrap: wrap; }}
+    .stat        {{ min-width: calc(50% - 1px); padding: 14px 12px; }}
+    .stat-val    {{ font-size: 24px; }}
+    .stat-label  {{ font-size: 10px; }}
+}}
 </style>
 </head>
 <body>
