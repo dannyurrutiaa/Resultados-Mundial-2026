@@ -16,7 +16,7 @@ import requests
 # ─── Configuración ────────────────────────────────────────────────────────────
 
 EXCEL_FILE    = "mundial_2026_apuestas.xlsx"
-OUTPUT_FILE   = "index_demo_v2.html"
+OUTPUT_FILE   = "index.html"
 API_BASE      = "https://api.football-data.org/v4"
 WC_2026_ID    = 2000
 POINTS        = {1: 4, 2: 3, 3: 2, 4: 1}
