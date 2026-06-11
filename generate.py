@@ -343,7 +343,7 @@ def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> s
     pagantes         = [a for a in apuestas_calc if a["pago"]]
     total_part       = len(pagantes)
     pozo             = total_part * 100_000
-    premio_1         = max(pozo - 100_000, 0)
+    premio_1         = max(pozo - 200_000, 0)
     fase             = standings["fase_actual"]
     torneo_terminado = bool(standings["resultados"])
 
@@ -573,7 +573,7 @@ def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> s
   <div class="stat"><div class="stat-val">{total_part}</div><div class="stat-label">Participantes</div></div>
   <div class="stat"><div class="stat-val">{clp(pozo)}</div><div class="stat-label">Pozo total</div></div>
   <div class="stat"><div class="stat-val">{clp(premio_1)}</div><div class="stat-label">Premio 1° lugar</div></div>
-  <div class="stat"><div class="stat-val">$100.000</div><div class="stat-label">Premio 2° lugar</div></div>
+  <div class="stat"><div class="stat-val">$200.000</div><div class="stat-label">Premio 2° lugar</div></div>
 </div>
 {resultados_html}
 <div class="cards-section">

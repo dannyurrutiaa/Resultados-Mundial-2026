@@ -62,7 +62,7 @@ git push -u origin main
 
 1. Ve a la pestaña **Actions** de tu repo
 2. Acepta activar los workflows si te lo pide
-3. Listo — la página se regenerará **automáticamente cada hora**
+3. Listo — la página se regenerará **automáticamente cada media hora**
 
 ---
 
@@ -116,12 +116,12 @@ start index.html  # Windows
 **Durante el torneo**: la página muestra el máximo de puntos que cada participante aún puede alcanzar según qué equipos siguen vivos.
 
 **Premios**:
-- 🥇 1° lugar: Pozo total − $100.000
-- 🥈 2° lugar: $100.000 fijo
+- 🥇 1° lugar: Pozo total − $200.000
+- 🥈 2° lugar: $200.000 fijo
 - Desempate: el participante cuyo equipo haya llegado más arriba gana
 
 ---
 
 ## 🔄 Actualización automática
 
-El archivo `.github/workflows/update.yml` configura GitHub Actions para regenerar `index.html` **cada hora** consultando la API. También puedes dispararlo manualmente desde la pestaña *Actions* de tu repo.
+El archivo `.github/workflows/update.yml` configura GitHub Actions para regenerar `index.html` **cada media hora** consultando la API. También puedes dispararlo manualmente desde la pestaña *Actions* de tu repo.
