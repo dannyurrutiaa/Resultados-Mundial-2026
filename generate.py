@@ -25,6 +25,7 @@ WC_START_DATE = date(2026, 6, 11)
 
 STAGE_LABELS = {
     "GROUP_STAGE":    "Fase de Grupos",
+    "LAST_32":        "Dieciseisavos de Final",
     "LAST_16":        "Octavos de Final",
     "QUARTER_FINALS": "Cuartos de Final",
     "SEMI_FINALS":    "Semifinales",
@@ -35,7 +36,8 @@ STAGE_LABELS = {
 # Menor número = llegó más lejos en el torneo
 STAGE_ORDER = {
     "FINAL": 0, "THIRD_PLACE": 2, "SEMI_FINALS": 4,
-    "QUARTER_FINALS": 8, "LAST_16": 16, "GROUP_STAGE": 32,
+    "QUARTER_FINALS": 8, "LAST_16": 16, "LAST_32": 24,
+    "GROUP_STAGE": 32,
 }
 
 # ─── Traducciones Español ↔ Inglés ────────────────────────────────────────────
