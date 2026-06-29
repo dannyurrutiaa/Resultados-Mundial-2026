@@ -302,10 +302,18 @@ def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
 
     def tiebreak_key_en_curso(a):
         picks_ordenados = [a["picks"].get(pos) for pos in [1, 2, 3, 4]]
-        return tuple(
-            STAGE_ORDER.get(mejor_stage.get(eq, "GROUP_STAGE"), 99) if eq else 99
-            for eq in picks_ordenados
-        )
+        result = []
+        for eq in picks_ordenados:
+            if eq is None:
+                result.append(99)
+            elif eq not in vivos:
+                # Solo penaliza equipos eliminados, usando su mejor stage
+                stage = mejor_stage.get(eq, "GROUP_STAGE")
+                result.append(STAGE_ORDER.get(stage, 99))
+            else:
+                # Equipo vivo: todos equivalentes, no desempatar por stage aún
+                result.append(0)
+        return tuple(result)
 
     if torneo_terminado:
         calculados.sort(key=lambda x: (-x["pts_reales"], tiebreak_key(x)))
