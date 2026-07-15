@@ -161,7 +161,7 @@ def fetch_standings(api_key: str) -> dict:
         elif stage_name == "THIRD_PLACE":
             resultados_finales[3] = winner_m
             resultados_finales[4] = loser_m
-        elif stage_name not in ("GROUP_STAGE",):
+        elif stage_name not in ("GROUP_STAGE", "SEMI_FINALS", "THIRD_PLACE"):
             eliminados.add(loser_m)
 
     posicion_final = {eq: pos for pos, eq in resultados_finales.items()}
