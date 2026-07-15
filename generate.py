@@ -133,10 +133,12 @@ def fetch_standings(api_key: str) -> dict:
     r3.raise_for_status()
     matches = r3.json().get("matches", [])
 
-    resultados_finales = {}
-    eliminados         = set()
-    stage_actual       = "GROUP_STAGE"
-    mejor_stage        = {}
+    resultados_finales  = {}
+    eliminados          = set()
+    stage_actual        = "GROUP_STAGE"
+    mejor_stage         = {}
+    semifinal_ganadores = set()
+    semifinal_perdedores= set()
 
     for m in matches:
         stage_name = m.get("stage", "")
@@ -161,7 +163,10 @@ def fetch_standings(api_key: str) -> dict:
         elif stage_name == "THIRD_PLACE":
             resultados_finales[3] = winner_m
             resultados_finales[4] = loser_m
-        elif stage_name not in ("GROUP_STAGE", "SEMI_FINALS", "THIRD_PLACE"):
+        elif stage_name == "SEMI_FINALS":
+            semifinal_ganadores.add(winner_m)
+            semifinal_perdedores.add(loser_m)
+        elif stage_name not in ("GROUP_STAGE", "THIRD_PLACE"):
             eliminados.add(loser_m)
 
     posicion_final = {eq: pos for pos, eq in resultados_finales.items()}
@@ -174,6 +179,8 @@ def fetch_standings(api_key: str) -> dict:
         "resultados": resultados_finales, "fase_actual": fase_label,
         "torneo_iniciado": True,
         "posicion_final": posicion_final, "mejor_stage": mejor_stage,
+        "semifinal_ganadores": semifinal_ganadores,
+        "semifinal_perdedores": semifinal_perdedores,
     }
 
 # ─── Datos demo ───────────────────────────────────────────────────────────────
@@ -189,6 +196,7 @@ def fetch_demo() -> dict:
         "vivos": vivos, "eliminados": eliminados, "resultados": {},
         "fase_actual": "📍 Cuartos de Final (demo)",
         "torneo_iniciado": True, "posicion_final": {}, "mejor_stage": mejor_stage,
+        "semifinal_ganadores": set(), "semifinal_perdedores": set(),
     }
 
 def fetch_demo_terminado() -> dict:
@@ -222,16 +230,28 @@ def fetch_demo_terminado() -> dict:
         "resultados": resultados, "fase_actual": "🏆 Torneo Finalizado (demo)",
         "torneo_iniciado": True,
         "posicion_final": posicion_final, "mejor_stage": mejor_stage,
+        "semifinal_ganadores": {"Argentina", "France"},
+        "semifinal_perdedores": {"Brazil", "Spain"},
     }
 
 # ─── Cálculo de puntajes y desempate ─────────────────────────────────────────
 
 def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
-    resultados      = standings["resultados"]
-    vivos           = standings["vivos"]
-    torneo_iniciado = standings["torneo_iniciado"]
-    posicion_final  = standings["posicion_final"]
-    mejor_stage     = standings["mejor_stage"]
+    resultados           = standings["resultados"]
+    vivos                = standings["vivos"]
+    torneo_iniciado      = standings["torneo_iniciado"]
+    posicion_final       = standings["posicion_final"]
+    mejor_stage          = standings["mejor_stage"]
+    semifinal_ganadores  = standings.get("semifinal_ganadores", set())
+    semifinal_perdedores = standings.get("semifinal_perdedores", set())
+
+    def posicion_posible(equipo, pos):
+        """Retorna False si el equipo ya no puede llegar a esa posición."""
+        if equipo in semifinal_ganadores and pos in [3, 4]:
+            return False   # finalista no puede quedar 3° ni 4°
+        if equipo in semifinal_perdedores and pos in [1, 2]:
+            return False   # perdedor de semi no puede quedar 1° ni 2°
+        return True
 
     calculados = []
     for a in apuestas:
@@ -259,12 +279,17 @@ def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
                 detalle[pos] = {"equipo": equipo, "estado": "vivo", "pts": pts_pos}
             else:
                 vivo = equipo in vivos
-                pts_maximos += pts_pos if vivo else 0
-                detalle[pos] = {
-                    "equipo": equipo,
-                    "estado": "vivo" if vivo else "eliminado",
-                    "pts":    pts_pos if vivo else 0,
-                }
+                if not vivo:
+                    estado = "eliminado"
+                    pts    = 0
+                elif not posicion_posible(equipo, pos):
+                    estado = "imposible"
+                    pts    = 0
+                else:
+                    estado = "vivo"
+                    pts    = pts_pos
+                pts_maximos += pts
+                detalle[pos] = {"equipo": equipo, "estado": estado, "pts": pts}
 
         calculados.append({
             **a,
@@ -345,8 +370,8 @@ def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
 
 # ─── Generación HTML ──────────────────────────────────────────────────────────
 
-ESTADO_ICON  = {"vivo": "🟢", "eliminado": "🔴", "acierto": "✅", "fallo": "❌"}
-ESTADO_LABEL = {"vivo": "Vivo", "eliminado": "Eliminado", "acierto": "¡Acertó!", "fallo": "Falló"}
+ESTADO_ICON  = {"vivo": "🟢", "eliminado": "🔴", "acierto": "✅", "fallo": "❌", "imposible": "⛔"}
+ESTADO_LABEL = {"vivo": "Vivo", "eliminado": "Eliminado", "acierto": "¡Acertó!", "fallo": "Falló", "imposible": "Imposible"}
 POS_LABEL    = {1: "🥇 1°", 2: "🥈 2°", 3: "🥉 3°", 4: "4°"}
 
 def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> str:
@@ -560,6 +585,8 @@ def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> s
   .pick.vivo .pick-pts    {{ color: var(--green); }}
   .pick.acierto .pick-pts {{ color: var(--green); }}
   .pick.eliminado .pick-pts {{ color: var(--red); }}
+  .pick.imposible {{ border-color: #e0cff0; background: #f5eeff; opacity: .7; }}
+  .pick.imposible .pick-pts {{ color: #9b59b6; }}
   .tiebreak-note {{ padding: 10px 16px; font-size: 12px; color: #7a5c00; background: #fff8e1; border-top: 1px solid #f0c060; }}
   footer {{ text-align: center; padding: 20px 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); background: var(--surface); }}
   @media (max-width: 600px) {{
