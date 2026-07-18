@@ -247,10 +247,13 @@ def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
 
     def posicion_posible(equipo, pos):
         """Retorna False si el equipo ya no puede llegar a esa posición."""
+        # Si esa posición ya tiene resultado confirmado y no es este equipo
+        if pos in resultados and resultados[pos] != equipo:
+            return False
         if equipo in semifinal_ganadores and pos in [3, 4]:
-            return False   # finalista no puede quedar 3° ni 4°
+            return False
         if equipo in semifinal_perdedores and pos in [1, 2]:
-            return False   # perdedor de semi no puede quedar 1° ni 2°
+            return False
         return True
 
     calculados = []
