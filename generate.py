@@ -265,7 +265,7 @@ def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
                 continue
             pts_pos = POINTS[pos]
 
-            if resultados:
+            if len(resultados) == 4:
                 ganado = resultados.get(pos) == equipo
                 pts_reales  += pts_pos if ganado else 0
                 pts_maximos += pts_pos if ganado else 0
@@ -298,7 +298,7 @@ def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
             "detalle":     detalle,
         })
 
-    torneo_terminado = bool(resultados)
+    torneo_terminado = len(resultados) == 4
 
     def tiebreak_key(a):
         """
@@ -380,7 +380,7 @@ def generar_html(apuestas_calc: list[dict], standings: dict, generado: str) -> s
     pozo             = total_part * 100_000
     premio_1         = max(pozo - 200_000, 0)
     fase             = standings["fase_actual"]
-    torneo_terminado = bool(standings["resultados"])
+    torneo_terminado = len(standings["resultados"]) == 4
 
     def clp(n):
         return f"${n:,.0f}".replace(",", ".")
