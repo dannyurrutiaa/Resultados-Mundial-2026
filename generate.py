@@ -367,7 +367,7 @@ def calcular(apuestas: list[dict], standings: dict) -> list[dict]:
             if a["_sort_key"] == pagantes[i-1]["_sort_key"]:
                 a["rank"] = pagantes[i-1]["rank"]
             else:
-                a["rank"] = i + 1
+                a["rank"] = pagantes[i-1]["rank"] + 1
 
     return calculados
 
